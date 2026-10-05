@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>TRACE — User guide</title>
+<!-- Source of guide.pdf. Regenerate:
+  "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" --headless \
+    --no-pdf-header-footer --print-to-pdf=guide.pdf guide.html -->
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700;800&display=swap" rel="stylesheet">
+<style>
+  @page { size: A4; margin: 0; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: #13101a; }
+  body {
+    font-family: 'JetBrains Mono', Menlo, monospace; color: #ece8f4;
+    font-size: 9.6pt; line-height: 1.6;
+    -webkit-print-color-adjust: exact; print-color-adjust: exact;
+  }
+  .page { width: 210mm; height: 297mm; padding: 20mm 18mm 18mm; position: relative;
+    overflow: hidden; page-break-after: always; display: flex; flex-direction: column; background: #13101a; }
+  .page:last-child { page-break-after: auto; }
+  .kicker { font-size: 7.5pt; font-weight: 700; letter-spacing: .34em; text-transform: uppercase; color: #f6ad42; }
+  h1 { font-size: 20pt; font-weight: 800; color: #fff; margin: 3mm 0 4mm; letter-spacing: -.01em; }
+  h2 { font-size: 10pt; font-weight: 800; color: #f6ad42; text-transform: uppercase; letter-spacing: .04em; margin: 6mm 0 3mm; }
+  .lead { color: #a8a0b8; font-size: 10.2pt; margin-bottom: 6mm; }
+  b { color: #fff; font-weight: 700; }
+  .o { color: #f6ad42; font-weight: 700; }
+  .note { background: #261d20; border-left: 1.2mm solid #f6ad42; border-radius: 0 2mm 2mm 0;
+    padding: 4.5mm 5.5mm; margin: 5mm 0; }
+  .note .t { display: block; font-size: 8pt; font-weight: 800; letter-spacing: .08em;
+    text-transform: uppercase; color: #f6ad42; margin-bottom: 1.5mm; }
+  ol.steps { list-style: none; counter-reset: s; }
+  ol.steps li { counter-increment: s; position: relative; padding-left: 15mm; margin-bottom: 5mm; }
+  ol.steps li::before { content: counter(s); position: absolute; left: 0; top: 0;
+    width: 9mm; height: 9mm; border-radius: 50%; background: #f6ad42; color: #13101a;
+    font-weight: 800; display: flex; align-items: center; justify-content: center; font-size: 10pt; }
+  ol.steps b { display: block; }
+  .card { background: #1d1730; border: 1px solid #3a3058; border-radius: 2mm;
+    padding: 4.5mm 5.5mm; margin-bottom: 4mm; }
+  .card .nm { font-weight: 800; color: #fff; }
+  .card .nm::before { content: ''; display: inline-block; width: 2.6mm; height: 2.6mm;
+    background: #f6ad42; border-radius: .6mm; margin-right: 2mm; vertical-align: .2mm; }
+  .card .tr { color: #a8a0b8; font-weight: 400; }
+  .card p { color: #a8a0b8; margin-top: 1.5mm; font-size: 9pt; }
+  table.kv { width: 100%; border-collapse: collapse; }
+  table.kv td { vertical-align: top; padding: 1.6mm 0; }
+  table.kv td:first-child { width: 58mm; color: #f6ad42; font-weight: 700; padding-right: 4mm; }
+  table.kv td:last-child { color: #a8a0b8; }
+  hr { border: 0; border-top: 1px solid #3a3058; margin: 5mm 0; }
+  .keys { display: flex; align-items: center; gap: 3mm; flex-wrap: wrap; color: #a8a0b8; margin-top: 3mm; }
+  .key { display: inline-flex; align-items: center; justify-content: center; min-width: 11mm; height: 7mm;
+    background: #1d1730; border: 1px solid #3a3058; border-radius: 1.6mm; color: #fff; font-weight: 800; }
+  .foot { margin-top: auto; border-top: 1px solid #3a3058; padding-top: 3mm; display: flex;
+    justify-content: space-between; font-size: 7pt; letter-spacing: .26em; text-transform: uppercase; color: #8a8298; }
+  .foot b { color: #8b6cf0; }
+
+  .cover { background: #7c5ae9; color: #1a1030; padding: 20mm 18mm 18mm; }
+  .cover .kicker { color: #1a1030; }
+  .cover svg { position: absolute; left: 0; top: 30mm; width: 210mm; height: 90mm; }
+  .cover h1 { font-size: 66pt; color: #fff; margin-top: auto; letter-spacing: -.01em; line-height: 1; }
+  .cover .lead { color: #1a1030; font-size: 11pt; max-width: 130mm; margin: 5mm 0 0; }
+  .cover .by { margin-top: 10mm; font-size: 7.5pt; font-weight: 700; letter-spacing: .34em; text-transform: uppercase; }
+</style>
+</head>
+<body>
+
+<section class="page cover">
+  <div class="kicker">User guide</div>
+  <svg viewBox="0 0 210 90" preserveAspectRatio="none" aria-hidden="true">
+    <path d="M -4 52 C 30 28, 72 10, 108 24 C 126 32, 128 52, 112 58 C 96 64, 88 46, 104 38 C 130 26, 160 34, 214 16"
+          fill="none" stroke="#f6ad42" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>
+  <h1>TRACE</h1>
+  <p class="lead">Draw in the air. The camera follows your hand and turns your movement into a line of light.</p>
+  <div class="by">Laurent Nyssen · Experiment</div>
+</section>
+
+<section class="page">
+  <div class="kicker">What it is</div>
+  <h1>A canvas you paint with a gesture</h1>
+  <p class="lead">Trace films you through the webcam, finds your hand and follows your fingertips. Pinch your thumb and index finger together and the pen comes down — you draw in space. Open your hand and the pen lifts. No touchscreen, no mouse, just movement becoming a line.</p>
+  <div class="note"><span class="t">A note on labels</span>The app's on-screen controls are in French. Their names are kept here exactly as they appear, so you can match this guide to the screen.</div>
+  <div class="kicker" style="margin:4mm 0 5mm">Get started in three steps</div>
+  <ol class="steps">
+    <li><b>Open the page over HTTPS</b>On iPhone and iPad, Safari only grants the camera on an <span class="o">https://</span> address. The demo link, trace-air-lab.vercel.app, already is one.</li>
+    <li><b>Turn the camera on</b>Tap <span class="o">Activer la caméra</span> (turn on camera) and accept Safari's request. The first time, the hand-tracking model takes two or three seconds to load.</li>
+    <li><b>Step back a little</b>Keep your hand well inside the frame, palm toward the camera. The tracking point appears as soon as the hand is detected.</li>
+  </ol>
+  <div class="note"><span class="t">The gesture, in a word</span><b>Pinch</b> (thumb + index touching) = you draw. <b>Open hand</b> = you lift the pen and move without drawing. All the finesse of the stroke lives in that pinch.</div>
+  <div class="foot"><span>Trace — User guide</span><span><b>00</b> · Start</span></div>
+</section>
+
+<section class="page">
+  <h2 style="margin-top:0">The six brushes</h2>
+  <div class="card"><span class="nm">Encre</span> <span class="tr">· ink</span><p>A solid, clean line, like a pen. The default brush.</p></div>
+  <div class="card"><span class="nm">Spray</span><p>A diffuse cloud of dots, like an aerosol can.</p></div>
+  <div class="card"><span class="nm">Néon</span> <span class="tr">· neon</span><p>A glowing line with a halo, best on a dark background.</p></div>
+  <div class="card"><span class="nm">Ruban</span> <span class="tr">· ribbon</span><p>A wide band whose thickness follows the speed of your gesture.</p></div>
+  <div class="card"><span class="nm">Hachures</span> <span class="tr">· hatching</span><p>Small repeated strokes, a hand-drawn texture.</p></div>
+  <div class="card"><span class="nm">Grain</span><p>A grainy material, rawer and more organic.</p></div>
+  <div class="foot"><span>Trace — User guide</span><span><b>01</b> · Drawing</span></div>
+</section>
+
+<section class="page">
+  <div class="kicker">Color &amp; settings</div>
+  <h1>Tune the line to your gesture</h1>
+  <h2>Color</h2>
+  <p>Pick a hue with the color selector, or grab one from the shortcut palette just below. Turn on <span class="o">Teinte évolutive</span> (hue drift) to let the color slide gently along the stroke — a living gradient with nothing to set.</p>
+  <h2>Four sliders</h2>
+  <table class="kv">
+    <tr><td>Taille · size</td><td>Line thickness, from <b>2</b> to <b>90</b>. Default 22.</td></tr>
+    <tr><td>Opacité · opacity</td><td>Ink transparency, from <b>5</b> to <b>100</b>. Default 85.</td></tr>
+    <tr><td>Sensibilité de la pince</td><td>How easily the pinch triggers (<b>20–80</b>). Lower = you must squeeze firmly; higher = it catches at the slightest closing. Default 45. (pinch sensitivity)</td></tr>
+    <tr><td>Lissage · smoothing</td><td>Softens the line to iron out hand jitter (<b>0–90</b>). Default 55.</td></tr>
+  </table>
+  <h2>Display</h2>
+  <table class="kv">
+    <tr><td>Voir la caméra</td><td>Shows or hides the webcam image behind the drawing. (show camera)</td></tr>
+    <tr><td>Voir la main</td><td>Shows the hand-tracking points — handy for aiming, turn off for a pure render. (show hand)</td></tr>
+    <tr><td>Fond opaque à l'export</td><td>If ticked, the exported PNG has a solid background; otherwise it's transparent. (opaque background on export)</td></tr>
+  </table>
+  <hr>
+  <h2 style="margin-top:0">Actions &amp; shortcuts</h2>
+  <p><b>Gomme</b> erases locally · <b>Annuler</b> steps back · <b>Effacer tout</b> starts from a blank canvas · <span class="o">Exporter en PNG</span> saves your image.</p>
+  <div class="keys"><span class="key">E</span> eraser <span class="key">Z</span> undo <span class="key">C</span> clear <span class="key">S</span> export</div>
+  <div class="note"><span class="t">For clean tracking</span>Soft, even light, a fairly plain background behind you, and your whole hand in the frame. If the point jumps, lower the <b>Sensibilité de la pince</b> and raise the <b>Lissage</b> a little.</div>
+  <div class="foot"><span>Trace — User guide</span><span><b>02</b> · Settings &amp; export</span></div>
+</section>
+
+</body>
+</html>

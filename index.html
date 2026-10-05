@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyBpZD0iQ2FscXVlXzIiIGRhdGEtbmFtZT0iQ2FscXVlIDIiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgdmlld0JveD0iMCAwIDEyMDAgMTIwMCI+CiAgPGRlZnM+CiAgICA8c3R5bGU+CiAgICAgIC5jbHMtMSB7CiAgICAgICAgZmlsbDogIzdiNThlODsKICAgICAgfQoKICAgICAgLmNscy0yIHsKICAgICAgICBmaWxsOiAjZmJiMDNiOwogICAgICB9CiAgICA8L3N0eWxlPgogIDwvZGVmcz4KICA8ZyBpZD0iQ2FscXVlXzEtMiIgZGF0YS1uYW1lPSJDYWxxdWUgMSI+CiAgICA8Zz4KICAgICAgPHJlY3QgY2xhc3M9ImNscy0xIiB3aWR0aD0iMTIwMCIgaGVpZ2h0PSIxMjAwIi8+CiAgICAgIDxwYXRoIGNsYXNzPSJjbHMtMiIgZD0iTTk3OS4wNiwwaC0xNDcuMDZjMTMuNDYsMy44MiwxNi4wNywxMi42MywxNi4wNywyNS43OSwwLDE2LjQ1LTYuNTgsMjYuMzEtNi41OCw0Mi43NiwwLDI0LjY3LDEzLjE2LDQ3LjY5LDU3LjU2LDQ3LjY5LDI3Ljk2LDAsODAuNTktOS44Nyw4MC41OS0xMDAuMzIsMC01LjUtLjE5LTEwLjgtLjU4LTE1LjkyWk0yNDcuODEsMTczLjhDMTc4Ljg3LDIyOS41Miw4OC40NiwzMTAuMzMsMCw0MDQuNzN2MTk1LjMzYzQ2LjM4LTU3LjE0LDkzLjY2LTEwOC4xNywxMzIuNjktMTQ2LjY5QzI0Ny4xMywzNDIuMDcsNjA4LjEzLDI5LjAzLDc4Ni45NCwwaC0yOTMuNjljLTk5Ljk1LDYwLjcxLTE5MS4wNiwxMjkuMzgtMjQ1LjQ0LDE3My44Wk05MjguNjUsNjYyLjIzYy00Ny42OSwwLTg4LjgsNTQuMjctMTA2Ljg5LDc0LjAxLTUyLjYzLDU3LjU2LTIxMi4xNSwyMDMuOTItMzA1Ljg5LDIwMy45MnEtNi41OCwwLTYuNTgtNC45M2MwLTgzLjg3LDE3NC4zMy0zMDQuMjQsMjI2Ljk1LTM3MS42Nyw1NC4yNy03MC43Miw4Ny4xNi0xMTUuMTIsMTU2LjIzLTE5Ny4zNSwxOS43NC0yMS4zOCw2OS4wOC03NCw2OS4wOC0xMTMuNDcsMC0zMi44OS0zMS4yNS02NC4xNC02NC4xNC02NC4xNC00OS4zNCwwLTk4LjY3LDg3LjE2LTE0MS40MywxNDMuMDhsLTIxMy44LDI3Mi45OWMtMTE2Ljc2LDE0OC4wMS0yNTQuOSwyODEuMjItNDQ0LjAzLDM4OS43Ni0yMi42MSwxMi45Mi01OC43LDMyLjk4LTk4LjE1LDUwLjA1djEzMC45NmM1OS44Ny0xOS4wMSwxMTcuODgtNDUuOTMsMTYwLjY1LTY5LjE4LDY3LjQzLTM3LjgyLDE0My4wNy05NS4zOCwyMDcuMjEtMTQ4LjAxLDYuNTgsOTUuMzksMzQuNTQsMTI5LjkyLDExMC4xOSwxMjkuOTIsMTIzLjM0LDAsMjc2LjI4LTEzMS41Niw0MTkuMzYtMjQ4LjMzLDIzLjAyLTE5LjczLDg1LjUyLTc0LDg1LjUyLTEyMC4wNSwwLTE4LjA5LTExLjUyLTU3LjU2LTU0LjI4LTU3LjU2WiIvPgogICAgPC9nPgogIDwvZz4KPC9zdmc+">
+<title>Trace — dessin en l'air</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.11.1/p5.min.js"></script>
+<script src="https://unpkg.com/ml5@1/dist/ml5.min.js"></script>
+<style>
+  :root{
+    --bg:#13101e; --panel:#1b1530; --panel2:#251d40;
+    --ink:#f1edf7; --muted:#9b93b3; --line:#332a52;
+    --accent:#fbb03b; --accent2:#7b58e8;
+    --ok:#6de58a; --warn:#ffd166; --err:#ff6b6b;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;height:100%;background:var(--bg);color:var(--ink);
+    font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+  #app{display:flex;height:100vh;width:100vw;overflow:hidden}
+  #stage{flex:1;display:flex;align-items:center;justify-content:center;
+    position:relative;padding:14px;min-width:0}
+  #canvas-wrap{position:relative;max-width:100%;max-height:100%;
+    border:1px solid var(--line);border-radius:10px;overflow:hidden;
+    box-shadow:0 10px 40px rgba(0,0,0,.5)}
+  #canvas-wrap canvas{display:block;max-width:100%;max-height:calc(100vh - 28px);
+    height:auto;width:auto}
+  #status{position:absolute;top:22px;left:22px;z-index:5;font-size:11px;
+    background:rgba(0,0,0,.55);padding:6px 10px;border-radius:6px;
+    border:1px solid var(--line);letter-spacing:.02em}
+  .dot{display:inline-block;width:8px;height:8px;border-radius:50%;
+    margin-right:6px;background:var(--muted);vertical-align:middle}
+  .dot.ok{background:var(--ok)} .dot.warn{background:var(--warn)}
+  .dot.err{background:var(--err)} .dot.live{background:var(--accent);
+    box-shadow:0 0 8px var(--accent)}
+
+  #panel{width:300px;flex:0 0 300px;background:var(--panel);
+    border-left:1px solid var(--line);overflow-y:auto;padding:16px}
+  #panel h1{font-size:13px;letter-spacing:.08em;text-transform:uppercase;
+    margin:0 0 2px;color:var(--ink)}
+  #panel .sub{font-size:10px;color:var(--muted);margin:0 0 16px}
+  .group{margin-bottom:18px;padding-bottom:16px;border-bottom:1px solid var(--line)}
+  .group:last-child{border-bottom:none}
+  .lbl{font-size:10px;text-transform:uppercase;letter-spacing:.07em;
+    color:var(--muted);margin-bottom:8px;display:flex;justify-content:space-between}
+  .lbl b{color:var(--accent);font-weight:600}
+
+  .brushes,.palette{display:grid;gap:6px}
+  .brushes{grid-template-columns:1fr 1fr}
+  .palette{grid-template-columns:repeat(8,1fr)}
+  .chip{cursor:pointer;border:1px solid var(--line);background:var(--panel2);
+    color:var(--ink);font-size:11px;padding:8px 6px;border-radius:6px;
+    text-align:center;transition:.12s;font-family:inherit}
+  .chip:hover{border-color:var(--accent);color:var(--accent)}
+  .chip.on{border-color:var(--accent);background:rgba(251,176,59,.14);
+    color:var(--accent)}
+  .sw{cursor:pointer;height:24px;border-radius:5px;border:2px solid transparent}
+  .sw.on{border-color:#fff;box-shadow:0 0 0 1px #000}
+
+  input[type=range]{width:100%;accent-color:var(--accent);cursor:pointer}
+  input[type=color]{width:100%;height:34px;border:1px solid var(--line);
+    background:var(--panel2);border-radius:6px;cursor:pointer;padding:2px}
+  .row{display:flex;gap:8px}
+  .row>*{flex:1}
+  .toggle{display:flex;align-items:center;justify-content:space-between;
+    font-size:11px;color:var(--ink);padding:6px 0;cursor:pointer}
+  .toggle input{accent-color:var(--accent);width:16px;height:16px;cursor:pointer}
+  button.act{width:100%;cursor:pointer;font-family:inherit;font-size:11px;
+    letter-spacing:.05em;text-transform:uppercase;padding:10px;border-radius:6px;
+    border:1px solid var(--line);background:var(--panel2);color:var(--ink);
+    transition:.12s;margin-top:6px}
+  button.act:hover{border-color:var(--accent);color:var(--accent)}
+  button.act.primary{background:var(--accent);color:#2a1a00;border-color:var(--accent);
+    font-weight:700}
+  button.act.primary:hover{filter:brightness(1.1)}
+  button.act.danger:hover{border-color:var(--err);color:var(--err)}
+  .help{font-size:10px;color:var(--muted);line-height:1.5;margin-top:4px}
+  kbd{background:var(--panel2);border:1px solid var(--line);border-radius:4px;
+    padding:1px 5px;font-size:10px}
+  @media(max-width:760px){
+    #app{flex-direction:column}
+    #panel{width:100%;flex:0 0 auto;border-left:none;border-top:1px solid var(--line);
+      max-height:46vh}
+  }
+  #overlay{position:absolute;inset:14px;z-index:10;display:flex;
+    align-items:center;justify-content:center;background:rgba(10,10,14,.82);
+    border-radius:10px;backdrop-filter:blur(3px)}
+  .ov-card{text-align:center;max-width:340px;padding:28px}
+  .ov-title{font-size:18px;letter-spacing:.1em;text-transform:uppercase;margin-bottom:10px}
+  .ov-txt{font-size:12px;color:var(--muted);margin:0 0 18px}
+  .ov-btn{cursor:pointer;font-family:inherit;font-size:12px;letter-spacing:.06em;
+    text-transform:uppercase;font-weight:700;padding:12px 22px;border-radius:8px;
+    border:1px solid var(--accent);background:var(--accent);color:#2a1a00;transition:.12s}
+  .ov-btn:hover{filter:brightness(1.1)}
+  .ov-note{font-size:10px;color:var(--muted);line-height:1.5;margin:16px 0 0}
+</style>
+</head>
+<body>
+<div id="app">
+  <div id="stage">
+    <div id="status"><span class="dot" id="sdot"></span><span id="stxt">Initialisation…</span></div>
+    <div id="canvas-wrap"></div>
+    <div id="overlay">
+      <div class="ov-card">
+        <div class="ov-title">Trace</div>
+        <p class="ov-txt">Safari exige un clic pour autoriser la caméra.</p>
+        <button id="startBtn" class="ov-btn">Activer la caméra</button>
+        <p class="ov-note" id="overlayNote">Sur iPhone/iPad, la caméra n'est accordée qu'en HTTPS. Ouvre cette page depuis une adresse https:// (voir la note de déploiement). En double-clic ou en http, Safari la bloque sans prévenir.</p>
+      </div>
+    </div>
+  </div>
+
+  <div id="panel">
+    <h1>Trace</h1>
+    <p class="sub">Pince le pouce et l'index pour tracer. Ouvre la main pour lever le stylo.</p>
+
+    <div class="group">
+      <div class="lbl">Pinceau</div>
+      <div class="brushes" id="brushes"></div>
+    </div>
+
+    <div class="group">
+      <div class="lbl">Couleur</div>
+      <input type="color" id="color" value="#7ccfff">
+      <div class="palette" id="palette" style="margin-top:8px"></div>
+      <label class="toggle" style="margin-top:6px">
+        <span>Teinte évolutive</span>
+        <input type="checkbox" id="hueDrift">
+      </label>
+    </div>
+
+    <div class="group">
+      <div class="lbl"><span>Taille</span><b id="sizeV">22</b></div>
+      <input type="range" id="size" min="2" max="90" value="22">
+      <div class="lbl" style="margin-top:12px"><span>Opacité</span><b id="opV">85</b></div>
+      <input type="range" id="op" min="5" max="100" value="85">
+      <div class="lbl" style="margin-top:12px"><span>Sensibilité de la pince</span><b id="pinchV">45</b></div>
+      <input type="range" id="pinch" min="20" max="80" value="45">
+      <div class="lbl" style="margin-top:12px"><span>Lissage</span><b id="smoothV">55</b></div>
+      <input type="range" id="smooth" min="0" max="90" value="55">
+    </div>
+
+    <div class="group">
+      <div class="lbl">Affichage</div>
+      <label class="toggle"><span>Voir la caméra</span><input type="checkbox" id="showCam" checked></label>
+      <label class="toggle"><span>Voir la main</span><input type="checkbox" id="showHand" checked></label>
+      <label class="toggle"><span>Fond opaque à l'export</span><input type="checkbox" id="exportBg"></label>
+    </div>
+
+    <div class="group">
+      <button class="act" id="eraser">Gomme</button>
+      <div class="row">
+        <button class="act" id="undo">Annuler</button>
+        <button class="act danger" id="clear">Effacer tout</button>
+      </div>
+      <button class="act primary" id="export">Exporter en PNG</button>
+      <p class="help">Raccourcis : <kbd>E</kbd> gomme · <kbd>Z</kbd> annuler · <kbd>C</kbd> effacer · <kbd>S</kbd> export</p>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ====================== ÉTAT ====================== */
+const W = 1024, H = 768;          // résolution interne (4:3)
+let video, handPose, hands = [];
+let pg;                            // calque de dessin (ce qu'on exporte)
+let modelReady = false, camReady = false, camError = null;
+
+const state = {
+  brush: 'encre',
+  color: '#7ccfff',
+  size: 22,
+  opacity: 85,
+  pinchSens: 45,
+  smooth: 55,
+  hueDrift: false,
+  eraser: false,
+  showCam: true,
+  showHand: true,
+  exportBg: false,
+};
+
+const BRUSHES = [
+  ['encre','Encre'], ['spray','Spray'], ['neon','Néon'],
+  ['ruban','Ruban'], ['hachures','Hachures'], ['grain','Grain'],
+  ['glitch','Glitch'], ['constellation','Constell.'],
+];
+
+const PALETTE = ['#ffffff','#0d0d10','#ff5c5c','#ffb14e','#ffe14e',
+  '#6de58a','#7ccfff','#9b8cff','#f77cd6','#00e0c6','#ff7a00','#c0c0cc'];
+
+/* pince : hystérésis + lissage */
+let pinching = false, wasPinching = false;
+let pt = null, smPt = null;       // point courant brut / lissé
+let lastPt = null;                // dernier point dessiné
+let hueOffset = 0;
+
+/* undo */
+const undoStack = [];
+const UNDO_MAX = 18;
+
+/* ====================== p5 ====================== */
+function preload(){
+  handPose = ml5.handPose({ maxHands:1, flipped:false }, ()=>{ modelReady = true; });
+}
+
+function setup(){
+  const c = createCanvas(W, H);
+  c.parent('canvas-wrap');
+  pixelDensity(1);
+  pg = createGraphics(W, H);
+  pg.pixelDensity(1);
+  pg.clear();
+
+  buildUI();
+  // Caméra démarrée par un clic (obligatoire sur Safari) — voir startCamera()
+  document.getElementById('startBtn').onclick = startCamera;
+  // Diagnostic préventif : Safari/file:// n'expose pas toujours mediaDevices
+  if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia){
+    document.getElementById('overlayNote').textContent =
+      "Caméra inaccessible ici (navigator.mediaDevices absent). Safari bloque la caméra sur les fichiers ouverts en file://. Sers la page via un serveur local — voir la note plus bas.";
+  }
+}
+
+let started = false;
+function startCamera(){
+  if (started) return; started = true;
+  const ov = document.getElementById('overlay');
+  if (ov) ov.style.display = 'none';
+
+  if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia){
+    camError = "Caméra indisponible — ouvre la page via http://localhost (Safari + file://)";
+    started = false; if (ov) ov.style.display = 'flex'; return;
+  }
+
+  // caméra frontale demandée (idéale, non exclusive → reste compatible desktop)
+  video = createCapture({ video:{ facingMode:'user' }, audio:false }, ()=>{ camReady = true; });
+  // attributs indispensables à Safari pour autoriser la lecture
+  video.elt.muted = true;
+  video.elt.setAttribute('muted','');
+  video.elt.setAttribute('playsinline','');
+  video.elt.setAttribute('webkit-playsinline','');
+  video.elt.setAttribute('autoplay','');
+  video.size(W, H);
+  video.hide();
+
+  const p = video.elt.play();
+  if (p && p.catch) p.catch(err => { camError = "Lecture vidéo bloquée : " + (err && err.name||err); });
+
+  handPose.detectStart(video, r => { hands = r; });
+}
+
+function draw(){
+  background(10);
+
+  // 1) caméra en miroir, légèrement assombrie
+  if (state.showCam && camReady){
+    push(); translate(W,0); scale(-1,1);
+    tint(255,150); image(video,0,0,W,H); pop();
+    noTint();
+    push(); fill(10,80); rect(0,0,W,H); pop();
+  }
+
+  // 2) lecture de la main + logique de pince
+  updateHand();
+
+  // 3) dessin sur le calque
+  if (pinching && smPt){
+    if (!wasPinching){ pushUndo(); lastPt = null; } // début de tracé
+    if (lastPt) strokeSegment(lastPt, smPt);
+    else dab(smPt);
+    lastPt = { ...smPt };
+  }
+  wasPinching = pinching;
+
+  // 4) calque de dessin par-dessus
+  image(pg, 0, 0);
+
+  // 5) overlay main + curseur
+  if (state.showHand) drawHandOverlay();
+  drawCursor();
+
+  updateStatus();
+}
+
+/* ====================== MAIN / PINCE ====================== */
+function kp(hand, name, idx){ return (hand && hand[name]) ? hand[name] : (hand.keypoints ? hand.keypoints[idx] : null); }
+function mx(x){ return W - x; }   // miroir horizontal pour coller à l'affichage
+
+function updateHand(){
+  pt = null;
+  if (!hands.length){ pinching = false; smPt = smPt; return; }
+  const h = hands[0];
+  const thumb = kp(h,'thumb_tip',4);
+  const index = kp(h,'index_finger_tip',8);
+  const wrist = kp(h,'wrist',0);
+  const mmcp  = kp(h,'middle_finger_mcp',9);
+  if (!thumb || !index || !wrist || !mmcp) return;
+
+  // point de tracé = milieu pouce/index, en miroir
+  pt = { x: mx((thumb.x+index.x)/2), y:(thumb.y+index.y)/2 };
+
+  // ratio robuste à la profondeur : dist(pouce,index) / taille de la main
+  const dPinch = dist(thumb.x,thumb.y,index.x,index.y);
+  const dHand  = dist(wrist.x,wrist.y,mmcp.x,mmcp.y) || 1;
+  const ratio  = dPinch / dHand;
+
+  // seuils dérivés de la sensibilité (slider), avec hystérésis
+  const base = state.pinchSens/100;        // 0.20 → 0.80
+  const onT  = base, offT = base + 0.18;
+  if (!pinching && ratio < onT) pinching = true;
+  else if (pinching && ratio > offT) pinching = false;
+
+  // lissage exponentiel
+  const a = 1 - (state.smooth/100)*0.92;   // smooth 0→a=1 (aucun), 90→a≈0.17
+  if (!smPt) smPt = { ...pt };
+  else { smPt.x += (pt.x-smPt.x)*a; smPt.y += (pt.y-smPt.y)*a; }
+}
+
+/* ====================== MOTEUR DE PINCEAUX ====================== */
+function curColor(seg=0){
+  let c = color(state.color);
+  if (state.hueDrift){
+    colorMode(HSB,360,100,100,100);
+    const base = hue(color(state.color));
+    c = color((base + hueOffset)%360, 70, 100, state.opacity);
+    hueOffset = (hueOffset + 0.8)%360;
+    colorMode(RGB,255);
+  } else {
+    c.setAlpha(state.opacity*2.55);
+  }
+  return c;
+}
+
+function dab(p){ strokeSegment(p,p); }
+
+function strokeSegment(a, b){
+  if (state.eraser){ eraseSeg(a,b); return; }
+  const d = dist(a.x,a.y,b.x,b.y);
+  const steps = max(1, floor(d/2));
+  for (let i=0;i<=steps;i++){
+    const t = steps? i/steps : 0;
+    const x = lerp(a.x,b.x,t), y = lerp(a.y,b.y,t);
+    paint(x, y, d);
+  }
+}
+
+function paint(x, y, speed){
+  const s = state.size;
+  switch(state.brush){
+    case 'encre': {
+      const w = s * map(min(speed,40),0,40,1,0.45); // plus rapide = plus fin
+      pg.noStroke();
+      for (let k=0;k<2;k++){
+        const c = curColor(); c.setAlpha(alpha(c)*0.5);
+        pg.fill(c);
+        pg.ellipse(x+random(-1,1), y+random(-1,1), w*random(.85,1.05));
+      }
+      break;
+    }
+    case 'spray': {
+      pg.noStroke();
+      const n = floor(s*0.8);
+      for (let k=0;k<n;k++){
+        const r = random(s/2), ang = random(TWO_PI);
+        const c = curColor(); c.setAlpha(alpha(c)*random(.2,.7));
+        pg.fill(c);
+        pg.circle(x+cos(ang)*r, y+sin(ang)*r, random(1,2.6));
+      }
+      break;
+    }
+    case 'neon': {
+      pg.push(); pg.blendMode(ADD); pg.noStroke();
+      const c = curColor();
+      for (let g=3; g>=1; g--){
+        const cc = color(red(c),green(c),blue(c), 40/g);
+        pg.fill(cc); pg.circle(x, y, s*g*0.9);
+      }
+      pg.fill(255,255,255,120); pg.circle(x,y,s*0.3);
+      pg.pop();
+      break;
+    }
+    case 'ruban': {
+      pg.noStroke(); pg.fill(curColor());
+      const w = s*map(min(speed,30),0,30,1.1,0.4);
+      pg.circle(x,y,w);
+      break;
+    }
+    case 'hachures': {
+      pg.stroke(curColor()); pg.strokeWeight(random(.8,1.8)); pg.noFill();
+      for (let k=0;k<3;k++){
+        const ox=random(-s/2,s/2), oy=random(-s/2,s/2), len=random(s*.4,s);
+        const ang=random(TWO_PI);
+        pg.line(x+ox, y+oy, x+ox+cos(ang)*len, y+oy+sin(ang)*len);
+      }
+      break;
+    }
+    case 'grain': {
+      pg.noStroke();
+      const n = floor(s*1.2);
+      for (let k=0;k<n;k++){
+        const r=random(s/2)*sqrt(random()), ang=random(TWO_PI);
+        const c=curColor(); c.setAlpha(alpha(c)*random(.3,1));
+        pg.fill(c);
+        pg.rect(x+cos(ang)*r, y+sin(ang)*r, random(1,2.2), random(1,2.2));
+      }
+      break;
+    }
+    case 'glitch': {
+      pg.push(); pg.blendMode(ADD); pg.noStroke();
+      const c=curColor(), off=s*0.18;
+      const bw=random(s*.4,s), bh=random(2,s*.4);
+      pg.fill(red(c),0,0,180);   pg.rect(x-off+random(-3,3), y, bw, bh);
+      pg.fill(0,green(c),0,180); pg.rect(x+random(-3,3),    y, bw, bh);
+      pg.fill(0,0,blue(c),180);  pg.rect(x+off+random(-3,3), y, bw, bh);
+      pg.pop();
+      break;
+    }
+    case 'constellation': {
+      pg.fill(curColor()); pg.noStroke();
+      pg.circle(x,y,random(2,s*0.22));
+      if (lastPt && random()<0.25){
+        const c=curColor(); c.setAlpha(alpha(c)*0.4);
+        pg.stroke(c); pg.strokeWeight(.6);
+        pg.line(x,y,lastPt.x,lastPt.y); pg.noStroke();
+      }
+      break;
+    }
+  }
+}
+
+function eraseSeg(a,b){
+  const d=dist(a.x,a.y,b.x,b.y), steps=max(1,floor(d/3));
+  pg.erase();
+  for (let i=0;i<=steps;i++){
+    const t=steps?i/steps:0;
+    pg.noStroke();
+    pg.circle(lerp(a.x,b.x,t), lerp(a.y,b.y,t), state.size*1.3);
+  }
+  pg.noErase();
+}
+
+/* ====================== OVERLAY ====================== */
+function drawHandOverlay(){
+  if (!hands.length) return;
+  const h = hands[0];
+  push(); noStroke();
+  for (const k of h.keypoints){
+    fill(255,255,255,90); circle(mx(k.x), k.y, 5);
+  }
+  pop();
+}
+function drawCursor(){
+  if (!smPt) return;
+  push(); noFill();
+  const c = state.eraser ? color(255,80,80) : color(state.color);
+  stroke(c); strokeWeight(pinching?2.5:1.5);
+  circle(smPt.x, smPt.y, state.size + (pinching?0:8));
+  if (pinching){ stroke(c); strokeWeight(1); line(smPt.x-4,smPt.y,smPt.x+4,smPt.y);
+    line(smPt.x,smPt.y-4,smPt.x,smPt.y+4); }
+  pop();
+}
+
+/* ====================== UNDO / EXPORT ====================== */
+function pushUndo(){
+  undoStack.push(pg.get());
+  if (undoStack.length>UNDO_MAX) undoStack.shift();
+}
+function doUndo(){
+  if (!undoStack.length) return;
+  const snap = undoStack.pop();
+  pg.clear(); pg.image(snap,0,0);
+  lastPt=null;
+}
+function doClear(){ pushUndo(); pg.clear(); lastPt=null; }
+function doExport(){
+  if (state.exportBg){
+    const out = createGraphics(W,H); out.pixelDensity(1);
+    out.background('#0d0d10');   // fond sombre opaque
+    out.image(pg,0,0);
+    save(out, 'trace', 'png');
+    setTimeout(()=>out.remove(),100);
+  } else {
+    save(pg, 'trace', 'png');  // PNG à fond transparent
+  }
+}
+
+/* ====================== STATUS ====================== */
+function updateStatus(){
+  const dot=document.getElementById('sdot'), txt=document.getElementById('stxt');
+  let cls='dot', msg='';
+  if (camError){ cls+=' err'; msg=camError; }
+  else if (!started){ cls+=' warn'; msg="Clique sur « Activer la caméra »"; }
+  else if (!modelReady){ cls+=' warn'; msg="Chargement du modèle…"; }
+  else if (!camReady){ cls+=' warn'; msg="Activation de la caméra…"; }
+  else if (pinching){ cls+=' live'; msg="Pince active — tu dessines"; }
+  else if (hands.length){ cls+=' ok'; msg="Main détectée — pince pour tracer"; }
+  else { cls+=' ok'; msg="Prêt — montre ta main"; }
+  dot.className=cls; txt.textContent=msg;
+}
+
+/* ====================== UI ====================== */
+function buildUI(){
+  const bw=document.getElementById('brushes');
+  BRUSHES.forEach(([id,label])=>{
+    const b=document.createElement('div');
+    b.className='chip'+(id===state.brush?' on':''); b.textContent=label;
+    b.onclick=()=>{ state.brush=id;
+      [...bw.children].forEach(x=>x.classList.remove('on')); b.classList.add('on'); };
+    bw.appendChild(b);
+  });
+
+  const pal=document.getElementById('palette');
+  PALETTE.forEach(hex=>{
+    const s=document.createElement('div'); s.className='sw'; s.style.background=hex;
+    s.onclick=()=>{ setColor(hex);
+      [...pal.children].forEach(x=>x.classList.remove('on')); s.classList.add('on'); };
+    pal.appendChild(s);
+  });
+
+  const link=(id,key,fmt)=>{ const el=document.getElementById(id);
+    const v=document.getElementById(id+'V');
+    el.oninput=()=>{ state[key]=+el.value; if(v) v.textContent=fmt?fmt(el.value):el.value; }; };
+  link('size','size'); link('op','opacity'); link('pinch','pinchSens'); link('smooth','smooth');
+
+  document.getElementById('color').oninput=e=>setColor(e.target.value);
+  document.getElementById('hueDrift').onchange=e=>state.hueDrift=e.target.checked;
+  document.getElementById('showCam').onchange=e=>state.showCam=e.target.checked;
+  document.getElementById('showHand').onchange=e=>state.showHand=e.target.checked;
+  document.getElementById('exportBg').onchange=e=>state.exportBg=e.target.checked;
+
+  const er=document.getElementById('eraser');
+  er.onclick=()=>{ state.eraser=!state.eraser;
+    er.classList.toggle('on',state.eraser);
+    er.textContent=state.eraser?'Gomme (active)':'Gomme'; };
+  document.getElementById('undo').onclick=doUndo;
+  document.getElementById('clear').onclick=doClear;
+  document.getElementById('export').onclick=doExport;
+}
+function setColor(hex){ state.color=hex; document.getElementById('color').value=hex; }
+
+/* raccourcis clavier */
+window.addEventListener('keydown',e=>{
+  if (e.target.tagName==='INPUT') return;
+  const k=e.key.toLowerCase();
+  if (k==='e') document.getElementById('eraser').click();
+  else if (k==='z') doUndo();
+  else if (k==='c') doClear();
+  else if (k==='s'){ e.preventDefault(); doExport(); }
+});
+</script>
+</body>
+</html>
